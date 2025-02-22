@@ -25,4 +25,5 @@ go.work.sum
 .env
 
 # Default program output
-docker-credential-artifactory
+docker-credential-jfrog
+bazel-credential-jfrog
