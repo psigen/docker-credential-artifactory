@@ -58,3 +58,18 @@ func (h ArtifactoryCredentialProvider) Get(request bazel.GetCredentialsRequest) 
 	log.Fatalln("not logged into", serverURL, "from JFrog CLI")
 	return nil, errors.ErrUnsupported
 }
+
+func (h ArtifactoryCredentialProvider) List() (bazel.ListCredentialsResponse, error) {
+	serverDetailList, err := config.GetAllServersConfigs()
+	if err != nil {
+		log.Fatalln("unable to retrieve JFrog server configs:", err)
+		return nil, err
+	}
+
+	response := make(bazel.ListCredentialsResponse)
+	for _, serverDetails := range serverDetailList {
+		response[serverDetails.Url] = serverDetails.Url
+	}
+
+	return response, nil
+}
