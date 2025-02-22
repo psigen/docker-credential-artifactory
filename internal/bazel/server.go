@@ -21,7 +21,7 @@ func Serve(provider BazelCredentialProvider) {
 
 		res, err := provider.Get(request)
 		if err != nil {
-			log.Fatalln("unable to process 'get' request:", request, err)
+			log.Fatalln("unable to process 'get' subcommand:", request, err)
 		}
 
 		enc := json.NewEncoder(os.Stdout)
@@ -29,9 +29,19 @@ func Serve(provider BazelCredentialProvider) {
 		if err != nil {
 			log.Fatalln("unable to encode 'get' response:", err)
 		}
+	case "list":
+		res, err := provider.List()
+		if err != nil {
+			log.Fatalln("unable to process 'list' subcommand:", err)
+		}
 
+		enc := json.NewEncoder(os.Stdout)
+		err = enc.Encode(res)
+		if err != nil {
+			log.Fatalln("unable to encode 'list' response:", err)
+		}
 	default:
-		fmt.Println("expected <get> subcommand")
+		fmt.Println("expected <get|list> subcommand")
 		os.Exit(1)
 	}
 }

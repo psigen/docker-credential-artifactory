@@ -11,6 +11,9 @@ type GetCredentialsReponse struct {
 	Headers map[string][]string `json:"headers,omitempty"`
 }
 
+type ListCredentialsResponse = map[string]string
+
 type BazelCredentialProvider interface {
 	Get(request GetCredentialsRequest) (*GetCredentialsReponse, error)
+	List() (ListCredentialsResponse, error)
 }
